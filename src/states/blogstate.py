@@ -1,4 +1,4 @@
-from typing import TypedDict
+from typing import TypedDict, NotRequired
 from pydantic import BaseModel,Field
 
 class Blog(BaseModel):
@@ -7,5 +7,5 @@ class Blog(BaseModel):
 
 class BlogState(TypedDict):
     topic: str
-    blog:Blog
+    blog: NotRequired[Blog]
     current_language:str

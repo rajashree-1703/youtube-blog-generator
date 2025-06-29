@@ -18,6 +18,7 @@ app=FastAPI()
 async def create_blogs(request: Request):
     data=await request.json()
     topic=data.get("topic", "")
+    language=data.get("language", "")
 
     ## get the llm object
     azurellm=AzureLLM()
@@ -26,7 +27,10 @@ async def create_blogs(request: Request):
     ## get the graph
     graph_builder=GraphBuilder(llm)
     
-    if topic:
+    if topic and language:
+        graph=graph_builder.setup_graph(usecase="language")
+        state=graph.invoke({"topic": topic, "current_language": language.lower()})
+    elif topic:
         graph=graph_builder.setup_graph(usecase="topic")
         state=graph.invoke({"topic": topic})
 
